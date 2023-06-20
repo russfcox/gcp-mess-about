@@ -1,22 +1,71 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: test-service
+  labels:
+    name: test-service
+    app: app
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app
+  name: python-test
+  namespace: test-service
   labels:
-    app: app
+    app: python-test
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: app    
+      app: python-test    
   template:
     metadata:
       labels:
-        app: app
+        app: python-test
     spec:
       containers:
-      - image: python_hello
-        name: python-hello
-        imagePullPolicy: Never
+      - name: test-service
+        image: russcox/test-service:2
         ports:
-          - containerPort: 5000
+          - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: python-test
+  namespace: test-service
+spec:
+  ports:
+    - port: 80
+      targetPort: 8080
+  selector:
+    app: python-test
+  type: NodePort
+---
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: test-service-ingress
+#   namespace: test-service
+# spec:
+#   rules:
+#   - http:
+#       paths:
+#       - backend:
+#           service:
+#             name: python-test
+#             port:
+#               number: 80
+#         path: /
+#         pathType: Prefix
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: test-service-ingress
+  namespace: test-service
+spec:
+  defaultBackend:
+    service:
+      name: python-test
+      port:
+        number: 80

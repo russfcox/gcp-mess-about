@@ -13,6 +13,9 @@
 
 Notes / Links
 
+When building container image on M1/ARM
+docker buildx build --platform linux/amd64 -t russcox/test-service:2 --no-cache .
+
 https://developer.hashicorp.com/terraform/tutorials/kubernetes/gke
 
 https://github.com/terraform-google-modules/terraform-google-project-factory/blob/master/docs/TROUBLESHOOTING.md
