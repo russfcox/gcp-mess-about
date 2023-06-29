@@ -4,6 +4,7 @@ variable "project_id" {
 
 variable "region" {
   type = string
+  default = "europe-west9"
 }
 
 variable "gke_node_count" {
