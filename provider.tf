@@ -1,9 +1,9 @@
 # https://registry.terraform.io/providers/hashicorp/google/latest/docs
 terraform {
- backend "gcs" {
-   bucket  = "rcox-gke-test-tfstate"
-   prefix  = "terraform/state"
- }
+  backend "gcs" {
+    bucket = "rcox-gke-test-tfstate"
+    prefix = "terraform/state"
+  }
   required_providers {
     google = {
       source  = "hashicorp/google"
